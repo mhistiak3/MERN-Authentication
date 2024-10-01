@@ -10,6 +10,7 @@
  *  node modules
  **/
 import express from "express";
+import { connectDB } from "./config/connectDB.js";
 
 // app object
 const app = express();
@@ -26,5 +27,6 @@ app.use("*", (req, res) => {
 // start server
 const PORT = 3000
 app.listen(3000, () => {
+    connectDB()
   console.log(`Server is running on port http://localhost:${PORT}`);
 });
