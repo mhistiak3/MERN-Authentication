@@ -16,6 +16,9 @@ import authRouter from "./routes/auth.routes.js";
 // app object
 const app = express();
 
+// application level middleware
+app.use(express.json());
+
 // *  Application Routes
 app.use("/api/auth", authRouter);
 
