@@ -1,3 +1,11 @@
+/*
+ * Title: Mern Auth System
+ * Description: MongoDB Connection
+ * Author: Istiak Ahammad
+ * Date: 2/10/2024
+ *
+ */
+
 import mongoose from "mongoose";
 import { MONGO_URI } from "./index.js";
 

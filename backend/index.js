@@ -11,22 +11,17 @@
  **/
 import express from "express";
 import { connectDB } from "./config/connectDB.js";
+import authRouter from "./routes/auth.routes.js";
 
 // app object
 const app = express();
 
 // *  Application Routes
-
-// 404 
-app.use("*", (req, res) => {
-  res.status(404).json({
-    message:"Page not found."
-  });
-});
+app.use("/api/auth", authRouter);
 
 // start server
-const PORT = 3000
-app.listen(3000, () => {
-    connectDB()
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  connectDB();
   console.log(`Server is running on port http://localhost:${PORT}`);
 });
