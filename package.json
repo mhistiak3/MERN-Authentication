@@ -2,9 +2,10 @@
   "name": "mern-auth",
   "version": "1.0.0",
   "description": "Mern Authentication system",
-  "main": "index.js",
+  "main": "backend/index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon backend/index.js"
   },
   "keywords": [
     "nodejs",
@@ -13,5 +14,18 @@
     "reactjs"
   ],
   "author": "Istiak Ahammad",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+    "crypto": "^1.0.1",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "jsonwebtoken": "^9.0.2",
+    "mailtrap": "^3.4.0",
+    "mongoose": "^8.7.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  }
 }
