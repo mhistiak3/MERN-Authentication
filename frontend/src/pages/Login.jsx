@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaEnvelope, FaLock } from "react-icons/fa";
+import { FaEnvelope, FaLock, FaSpinner } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import InputBox from "../components/InputBox";
 
@@ -10,6 +10,7 @@ const Login = () => {
   });
 
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -21,6 +22,7 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Form Submitted:", formData);
+    setLoading(true);
   };
 
   return (
@@ -64,9 +66,11 @@ const Login = () => {
         <div>
           <button
             type="submit"
-            className="w-full py-3 px-4 bg-purple-600 text-white font-semibold rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition-colors duration-300"
+            className={`w-full py-3 px-4 bg-purple-600 text-white font-semibold rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition-colors duration-300 flex items-center justify-center ${
+              loading ? "cursor-not-allowed opacity-70" : ""
+            }`}
           >
-            Login
+            {loading ? <FaSpinner className="animate-spin mr-2" /> : "Login"}
           </button>
         </div>
       </form>
