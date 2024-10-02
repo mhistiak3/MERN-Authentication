@@ -14,7 +14,7 @@ import express from "express";
 /**
  *  app modules
 **/
-import { loginController, logoutController, registerController } from "../controllers/auth.controllers.js";
+import { loginController, logoutController, registerController, verifyEmailController } from "../controllers/auth.controllers.js";
 
 // router
 const router = express.Router();
@@ -28,6 +28,9 @@ router.post("/login",loginController);
 
 // Logout Route
 router.post("/logout",logoutController);
+
+// verify email
+router.post("/verify-email", verifyEmailController);
 
 
 export default router
