@@ -102,7 +102,31 @@ export const verifyEmailController = async (req, res) => {
 // Login Controller
 export const loginController = async (req, res) => {
   try {
-  } catch (error) {}
+    const { email, password } = req.body;
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      throw new Error("User not found");
+    }
+    const isPassword = await bcrypt.compare(password, user.password);
+    if (!isPassword) {
+      throw Error("Invalid password");
+    }
+    // generate token and set cookie
+    generateTokenAndSetCookie(res, user._id);
+    // update last login
+    user.lastLogin = Date.now();
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: "User logged in successfully",
+      user: { ...user._doc, password: undefined },
+    });
+  } catch (error) {
+    console.log("Error:", error.message);
+    res.status(400).json({ success: false, message: error.message });
+  }
 };
 
 // Logout Controller
