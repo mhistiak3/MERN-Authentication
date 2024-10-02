@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import InputBox from "../components/InputBox";
+import PasswordStrengthMeter from "../components/PasswordStrengthMeter";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -9,34 +11,11 @@ const Register = () => {
     password: "",
   });
 
-  const [passwordStrength, setPasswordStrength] = useState("");
-  const [strengthColor, setStrengthColor] = useState("");
-
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
-
-    if (e.target.name === "password") {
-      evaluatePasswordStrength(e.target.value);
-    }
-  };
-
-  const evaluatePasswordStrength = (password) => {
-    if (password.length < 6) {
-      setPasswordStrength("Weak");
-      setStrengthColor("bg-red-500");
-    } else if (password.length >= 6 && password.length < 10) {
-      setPasswordStrength("Medium");
-      setStrengthColor("bg-yellow-500");
-    } else if (password.length >= 10) {
-      setPasswordStrength("Strong");
-      setStrengthColor("bg-green-500");
-    } else {
-      setPasswordStrength("");
-      setStrengthColor("");
-    }
   };
 
   const handleSubmit = (e) => {
@@ -51,66 +30,40 @@ const Register = () => {
       </h2>
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Name Field */}
-        <div className="relative">
-          <FaUser className="absolute left-3 top-3 text-gray-400" />
-          <input
-            type="text"
-            name="name"
-            id="name"
-            value={formData.name}
-            onChange={handleChange}
-            className="w-full pl-10 pr-4 py-3 text-base bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500 transition-colors duration-300"
-            placeholder="Full Name"
-            required
-          />
-        </div>
+        <InputBox
+          formData={formData.name}
+          handleChange={handleChange}
+          IconComponent={FaUser}
+          type="text"
+          name="name"
+          id="name"
+          placeholder="Full Name"
+        />
+
         {/* Email Field */}
-        <div className="relative">
-          <FaEnvelope className="absolute left-3 top-3 text-gray-400" />
-          <input
-            type="email"
-            name="email"
-            id="email"
-            value={formData.email}
-            onChange={handleChange}
-            className="w-full pl-10 pr-4 py-3 text-base bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500 transition-colors duration-300"
-            placeholder="Email Address"
-            required
-          />
-        </div>
+        <InputBox
+          formData={formData.email}
+          handleChange={handleChange}
+          IconComponent={FaEnvelope}
+          type="email"
+          name="email"
+          id="email"
+          placeholder="Email Address"
+        />
+
         {/* Password Field */}
-        <div className="relative">
-          <FaLock className="absolute left-3 top-3 text-gray-400" />
-          <input
-            type="password"
-            name="password"
-            id="password"
-            value={formData.password}
-            onChange={handleChange}
-            className="w-full pl-10 pr-4 py-3 text-base bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500 transition-colors duration-300"
-            placeholder="Password"
-            required
-          />
-          {/* Password Strength Indicator */}
-          {passwordStrength && (
-            <div className="mt-5">
-              <div className="w-full bg-gray-300 rounded-full h-2 mt-1">
-                <div
-                  className={`h-2 rounded-full ${strengthColor}`}
-                  style={{
-                    width: `${
-                      passwordStrength === "Weak"
-                        ? "33%"
-                        : passwordStrength === "Medium"
-                        ? "66%"
-                        : "100%"
-                    }`,
-                  }}
-                ></div>
-              </div>
-            </div>
-          )}
-        </div>
+        <InputBox
+          formData={formData.password}
+          handleChange={handleChange}
+          IconComponent={FaLock}
+          type="password"
+          name="password"
+          id="password"
+          placeholder="Password"
+        />
+        {/* Password Strength Meter */}
+        <PasswordStrengthMeter password={formData.password} />
+
         {/* Submit Button */}
         <div>
           <button
