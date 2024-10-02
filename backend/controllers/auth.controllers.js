@@ -160,7 +160,7 @@ export const forgotPasswordController = async (req, res) => {
 
     // send reset password email
     const resetLink = `${CLIENT_URL}/reset-password/${resetToken}`;
-    const a = await EmailSend(email, "Reset Password", resetLink);
+    await EmailSend(email, "Reset Password", resetLink);
 
     res.status(200).json({
       success: true,
@@ -168,6 +168,40 @@ export const forgotPasswordController = async (req, res) => {
     });
   } catch (error) {
     console.log("Error:", error.message);
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
+
+export const resetPasswordController = async (req, res) => {
+  try {
+    // get token and find user
+    const { token } = req.params;
+    const { password } = req.body;
+    const user = await User.findOne({
+      resetPasswordToken: token,
+      resetPasswordExpireAt: { $gt: Date.now() },
+    });
+    // check if user exists
+    if (!user) {
+      throw new Error("Invalid or expired token");
+    }
+
+    // update password
+    const hashedPassword = await bcrypt.hash(password, 10);
+    user.password = hashedPassword;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpireAt = undefined;
+    await user.save();
+
+    // reset success email
+    await EmailSend(user.email, "Password Reset Successful", user.name);
+
+    res.status(200).json({
+      success: true,
+      message: "Password reset successfully",
+    });
+  } catch (error) {
+    console.log("Error: ", error.message);
     res.status(400).json({ success: false, message: error.message });
   }
 };

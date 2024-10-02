@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
 import { EMAIL_USER, EMAIL_PASS } from "../config/index.js";
-import { emailVerificationTemplate, resetPasswordTemplate, welcomeEmailTemplate } from "./emailTemplate.js";
+import { emailVerificationTemplate, passwordResetSuccessTemplate, resetPasswordTemplate, welcomeEmailTemplate } from "./emailTemplate.js";
 export default async function EmailSend(email, subject, msg) {
   try {
     await nodemailer.createTestAccount();
@@ -24,6 +24,10 @@ export default async function EmailSend(email, subject, msg) {
     if (subject === "Reset Password") {
       template = resetPasswordTemplate(email, msg);
     }
+    if (subject === "Password Reset Successful") {
+      template = passwordResetSuccessTemplate(msg);
+    }
+    
     let mailOptions = {
       from: "'iA Coder'  <estiyak1122@gmail.com>",
       to: email,

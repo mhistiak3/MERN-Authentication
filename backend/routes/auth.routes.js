@@ -14,7 +14,7 @@ import express from "express";
 /**
  *  app modules
 **/
-import { forgotPasswordController, loginController, logoutController, registerController, verifyEmailController } from "../controllers/auth.controllers.js";
+import { forgotPasswordController, loginController, logoutController, registerController, resetPasswordController, verifyEmailController } from "../controllers/auth.controllers.js";
 
 // router
 const router = express.Router();
@@ -34,6 +34,9 @@ router.post("/verify-email", verifyEmailController);
 
 // forgot password
 router.post("/forgot-password", forgotPasswordController);
+
+// reset password
+ router.post("/reset-password/:token", resetPasswordController);
 
 
 export default router
