@@ -16,6 +16,7 @@ import bcrypt from "bcryptjs";
  **/
 import User from "../models/user.model.js";
 import generateTokenAndSetCookie from "../utils/generateTokenAndSetCookie.js";
+import EmailSend from "../utils/sendEmail.js";
 
 // Register Controller
 export const registerController = async (req, res) => {
@@ -51,7 +52,7 @@ export const registerController = async (req, res) => {
       verificationTokenExpireAt: Date.now() + 3600000, // 1 hour,
     });
     generateTokenAndSetCookie(res, user._id);
-
+    await EmailSend(email, "Verify Email", verificationToken);
     res
       .status(201)
       .json({ success: true, message: "User created successfully" });
