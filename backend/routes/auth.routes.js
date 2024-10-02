@@ -15,10 +15,14 @@ import express from "express";
  *  app modules
 **/
 import { forgotPasswordController, loginController, logoutController, registerController, resetPasswordController, verifyEmailController } from "../controllers/auth.controllers.js";
+import AuthMiddleware from "../middleware/auth.middleware.js";
 
 // router
 const router = express.Router();
 
+
+// Check Auth
+router.get("/chek-auth", AuthMiddleware, checkAuthController);
 
 // Register Route
 router.post("/register", registerController);

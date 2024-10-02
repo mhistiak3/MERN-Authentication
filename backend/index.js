@@ -12,12 +12,14 @@
 import express from "express";
 import { connectDB } from "./config/connectDB.js";
 import authRouter from "./routes/auth.routes.js";
+import cookieParser from "cookie-parser";
 
 // app object
 const app = express();
 
 // application level middleware
 app.use(express.json());
+app.use(cookieParser());
 
 // *  Application Routes
 app.use("/api/auth", authRouter);

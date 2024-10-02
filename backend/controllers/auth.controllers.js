@@ -205,3 +205,25 @@ export const resetPasswordController = async (req, res) => {
     res.status(400).json({ success: false, message: error.message });
   }
 };
+
+
+export const checkAuthController = async (req, res) => {
+  try {
+    const userId = req.userId
+    const user = await User.findOne({ _id: userId }).select("-password")
+
+    if(!user){
+      throw new Error("User not found")
+    }
+
+    res.status(200).json({
+      success: true,
+      user
+    })
+  } catch (error) {
+    console.log("Error: ", error.message);
+
+    res.status(400).json({ success: false, message: error.message });
+    
+  }
+}
