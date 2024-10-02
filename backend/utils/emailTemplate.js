@@ -195,3 +195,103 @@ export const welcomeEmailTemplate = (name) => {
 </html>
 `;
 };
+
+
+export const resetPasswordTemplate = (name, resetLink) => {
+  return `<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reset Your Password</title>
+  <style>
+    body {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    h1 {
+      color: #ff6b6b;
+      font-size: 26px;
+      margin-bottom: 20px;
+    }
+
+    p {
+      color: #555;
+      font-size: 16px;
+      line-height: 1.6;
+      margin: 20px 0;
+    }
+
+    .reset-message {
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 30px;
+    }
+
+    .button {
+      display: inline-block;
+      background-color: #ff6b6b;
+      color: white;
+      padding: 15px 30px;
+      text-decoration: none;
+      border-radius: 5px;
+      margin-top: 20px;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+
+    .button:hover {
+      background-color: #e64949;
+    }
+
+    .footer {
+      margin-top: 40px;
+      text-align: center;
+      color: #999;
+      font-size: 12px;
+    }
+
+    .footer a {
+      color: #ff6b6b;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Hey ${name}, did you forget your password? 🤔</h1>
+    <p class="reset-message">No worries! Happens to the best of us! 💪</p>
+    <p>Just click the button below, and you'll be back in business in no time.</p>
+    
+    <a href="${resetLink}" class="button">Reset Password</a>
+
+    <p>If you didn’t request this, just ignore it and keep doing your thing! 🎉</p>
+
+    <div class="footer">
+      <p>&copy; iA Coder | We got your back.</p>
+      <p><a href="#">Privacy Policy</a> | <a href="#">Contact Support</a></p>
+    </div>
+  </div>
+</body>
+
+</html>
+`;
+};
