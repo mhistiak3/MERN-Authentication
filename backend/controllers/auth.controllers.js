@@ -33,11 +33,8 @@ export const registerController = async (req, res) => {
 
     // Check if user already exists
     const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res
-        .status(409)
-        .json({ success: false, message: "User already exists" });
-    }
+    if (existingUser)  throw new Error("User already exists");
+    
 
     // hash password
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -63,6 +60,7 @@ export const registerController = async (req, res) => {
         "User created successfully and sent email to: " +
         email +
         " for verification.",
+      user:{...user._doc, password: undefined},
     });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });
@@ -74,6 +72,7 @@ export const verifyEmailController = async (req, res) => {
   try {
     // get code and find user
     const { code } = req.body;
+    console.log(code);
     const user = await User.findOne({
       verificationToken: code,
       verificationTokenExpireAt: { $gt: Date.now() },
@@ -92,7 +91,7 @@ export const verifyEmailController = async (req, res) => {
     await EmailSend(user.email, "Welcome Email", user.name);
 
     // response success
-    res.json({ success: true, message: "Email verified successfully" });
+    res.json({ success: true, message: "Email verified successfully" ,user:{...user._doc, password: undefined}});
   } catch (error) {
     console.log("Error:", error.message);
     res.status(400).json({ success: false, message: error.message });

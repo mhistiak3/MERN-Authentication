@@ -16,9 +16,7 @@ export const useAuthStore = create((set) => ({
         name,
         email,
         password,
-      });
-      console.log(response.data);
-      
+      });    
       set({
         user: response.data?.user,
         isAuthenticated: true,
@@ -26,7 +24,6 @@ export const useAuthStore = create((set) => ({
       });
     } catch (error) {
         console.log(error);
-        
       set({
         isLoading: false,
         error: error?.response?.data?.message || "Error to sign up",
@@ -34,4 +31,26 @@ export const useAuthStore = create((set) => ({
       throw error
     }
   },
+  verifyEmail: async (verificationCode) => {
+      set({ isLoading: true, error: null });
+      console.log(verificationCode);
+      
+      try {
+        const response = await axios.post(`${API_URL}/verify-email`, {
+          code:verificationCode,
+        });
+        set({
+          user: response.data?.user,
+          isAuthenticated: true,
+          isLoading: false,
+        });
+        return response.data
+      } catch (error) {
+        set({
+          isLoading: false,
+          error: error?.response?.data?.message || "Error to verify email",
+        });
+        throw error
+      }
+  }
 }));

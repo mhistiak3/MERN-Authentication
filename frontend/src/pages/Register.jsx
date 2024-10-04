@@ -41,7 +41,7 @@ const Register = () => {
         await singUp(name, email, password);
         setLoading(false);
         setIsErr(null);
-        navigate("email-verify");
+        navigate("/auth/email-verify");
       } catch (error) {
         setIsErr(error.message);
       }

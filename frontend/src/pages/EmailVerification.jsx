@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { FaSpinner } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-
+import { useAuthStore } from "../store/auth.store";
+import toast from "react-hot-toast";
 const EmailVerification = () => {
-  const [loading, setLoading] = useState(false);
+  const { verifyEmail, isLoading, error } = useAuthStore();
+  const [loading, setLoading] = useState(isLoading);
   const [code, setCode] = useState(["", "", "", "", "", ""]);
   const inputRef = useRef([]);
   const navigate = useNavigate();
@@ -32,16 +34,23 @@ const EmailVerification = () => {
       inputRef.current[index - 1].focus();
     }
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!code.every((digit) => digit !== "")) {
       return;
     }
     const verificationCode = code.join("");
-    alert(verificationCode);
-    setLoading(true);
-
-    navigate("/")
+    console.log(verificationCode);
+    
+    try {
+      await verifyEmail(verificationCode);
+      setLoading(false);
+      navigate("/dashboard");
+      toast.success("Email verified successfully");
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+    }
   };
   useEffect(() => {
     if (code.every((digit) => digit !== "")) {
@@ -72,9 +81,12 @@ const EmailVerification = () => {
           ))}
         </div>
 
-        <p className="mt-6 text-center text-sm text-red-700">
-          Invalid or expired code. Please try again.
-        </p>
+        {error && (
+          <p className="mt-6 text-center text-sm text-red-700">
+            {error}.
+          </p>
+        )}
+
         <button
           type="submit"
           className={`w-full py-3 px-4 bg-purple-600 text-white font-semibold rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition-colors duration-300 flex items-center justify-center mt-4 ${

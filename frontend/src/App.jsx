@@ -5,6 +5,8 @@ import Home from "./pages/Home";
 import AuthLayout from "./components/AuthLayout";
 import Login from "./pages/Login";
 import EmailVerification from "./pages/EmailVerification";
+import { Toaster } from "react-hot-toast";
+import Dashboard from "./pages/Dashboard";
 
 const App = () => {
   return (
@@ -12,6 +14,7 @@ const App = () => {
       <Routes>
         {/* Main Route */}
         <Route path="/" element={<Home />} />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/auth" element={<AuthLayout />}>
           {/* Child Routes */}
           <Route path="register" element={<Register />} />
@@ -19,6 +22,7 @@ const App = () => {
           <Route path="email-verify" element={<EmailVerification />} />
         </Route>
       </Routes>
+      <Toaster/>
     </>
   );
 };
