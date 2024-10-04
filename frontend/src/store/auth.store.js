@@ -2,6 +2,7 @@ import { create } from "zustand";
 import axios from "axios";
 
 const API_URL = "http://localhost:3000/api/auth";
+axios.defaults.withCredentials = true;
 export const useAuthStore = create((set) => ({
   user: null,
   isAuthenticated: false,
@@ -16,15 +17,19 @@ export const useAuthStore = create((set) => ({
         email,
         password,
       });
+      console.log(response.data);
+      
       set({
         user: response.data?.user,
         isAuthenticated: true,
         isLoading: false,
       });
     } catch (error) {
+        console.log(error);
+        
       set({
         isLoading: false,
-        error: error.response.data.message || "Error to sign up",
+        error: error?.response?.data?.message || "Error to sign up",
       });
       throw error
     }

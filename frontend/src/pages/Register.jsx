@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { FaUser, FaEnvelope, FaLock, FaSpinner } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import InputBox from "../components/InputBox";
 import PasswordStrengthMeter from "../components/PasswordStrengthMeter";
+import { useAuthStore } from "../store/auth.store";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -10,7 +11,10 @@ const Register = () => {
     email: "",
     password: "",
   });
-  const [loading, setLoading] = useState(false);
+  const { singUp, error, isLoading } = useAuthStore();
+  const [loading, setLoading] = useState(isLoading);
+  const [isErr, setIsErr] = useState(error);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({
@@ -19,10 +23,28 @@ const Register = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form Submitted:", formData);
-    setLoading(true)
+    const { name, email, password } = formData;
+      try {
+        // Name validation
+        if (!name || name.trim().length < 2) {
+          throw Error("Name must be at least 2 characters long.");
+        }
+        // Email validation (simple email regex)
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!email || !emailRegex.test(email)) {
+          throw Error("Please enter a valid email address.");
+        }
+
+        setLoading(true);
+        await singUp(name, email, password);
+        setLoading(false);
+        setIsErr(null);
+        navigate("email-verify");
+      } catch (error) {
+        setIsErr(error.message);
+      }
   };
 
   return (
@@ -66,6 +88,7 @@ const Register = () => {
         {/* Password Strength Meter */}
         <PasswordStrengthMeter password={formData.password} />
 
+        {isErr && <p className="text-red-500 font-semibold mt-3">{isErr}</p>}
         {/* Submit Button */}
         <div>
           <button
