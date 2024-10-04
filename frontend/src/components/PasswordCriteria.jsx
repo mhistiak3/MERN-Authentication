@@ -1,6 +1,7 @@
 import { FaCheck, FaTimes } from "react-icons/fa";
 
 const PasswordCriteria = ({ password }) => {
+
   const criteria = [
     { label: "At least 6 characters", met: password.length >= 6 },
     { label: "Contains uppercase letter", met: /[A-Z]/.test(password) },
