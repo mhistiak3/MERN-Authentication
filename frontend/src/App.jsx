@@ -10,6 +10,7 @@ import Dashboard from "./pages/Dashboard";
 import { useAuthStore } from "./store/auth.store";
 import { useEffect } from "react";
 import LoadingSpinner from "./components/LoadingSpinner";
+import ForgotPassword from "./pages/ForgotPassword";
 
 // Protected Routes
 const ProtectedRoute = ({ children }) => {
@@ -24,7 +25,7 @@ const ProtectedRoute = ({ children }) => {
   return children;
 };
 const App = () => {
-  const { isCheckeingAuth, checkAuth, isAuthenticated, user } = useAuthStore();
+  const { isCheckeingAuth, checkAuth } = useAuthStore();
 
   useEffect(() => {
     checkAuth();
@@ -33,9 +34,7 @@ const App = () => {
   if (isCheckeingAuth) {
     return <LoadingSpinner />;
   }
-  console.log("Is Checking Auth:", isCheckeingAuth);
-  console.log("Is Auth:", isAuthenticated);
-  console.log("User:", user);
+ 
 
   return (
     <>
@@ -54,6 +53,7 @@ const App = () => {
           {/* Child Routes */}
           <Route path="register" element={<Register />} />
           <Route path="login" element={<Login />} />
+          <Route path="forgot-password" element={<ForgotPassword />} />
           <Route path="email-verify" element={<EmailVerification />} />
         </Route>
       </Routes>
