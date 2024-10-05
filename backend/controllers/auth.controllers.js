@@ -158,7 +158,7 @@ export const forgotPasswordController = async (req, res) => {
     await user.save();
 
     // send reset password email
-    const resetLink = `${CLIENT_URL}/reset-password/${resetToken}`;
+    const resetLink = `${CLIENT_URL}/auth/reset-password/${resetToken}`;
     await EmailSend(email, "Reset Password", resetLink);
 
     res.status(200).json({

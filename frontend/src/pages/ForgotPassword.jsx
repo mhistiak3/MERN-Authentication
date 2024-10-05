@@ -12,7 +12,8 @@ const ForgotPassword = () => {
   const handleChange = (e) => {
     setEmail(e.target.value);
   };
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+         e.preventDefault();
     isSubmited(true);
    await forgotPassword(email)
   };
@@ -63,7 +64,7 @@ const ForgotPassword = () => {
               <FaEnvelope className="text-white text-2xl " />
             </div>
           </div>
-          <p className="text-center py-5 font-semibold text-lg">If an account exist for {email}. you will receive a password reset link.</p>
+          <p className="text-center py-5 text-lg">If an account exist for {email}. you will receive a password reset link.</p>
         </>
       )}
 

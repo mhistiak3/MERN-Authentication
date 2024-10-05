@@ -5,7 +5,7 @@ import { useAuthStore } from "../store/auth.store";
 const AuthLayout = () => {
   const { isAuthenticated, user } = useAuthStore();
   
-  if (isAuthenticated && user.isVerified) {
+  if (isAuthenticated && user?.isVerified) {
     return <Navigate to="/dashboard" replace />;
   }
   return (

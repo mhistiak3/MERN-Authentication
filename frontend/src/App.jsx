@@ -11,6 +11,7 @@ import { useAuthStore } from "./store/auth.store";
 import { useEffect } from "react";
 import LoadingSpinner from "./components/LoadingSpinner";
 import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 // Protected Routes
 const ProtectedRoute = ({ children }) => {
@@ -53,8 +54,9 @@ const App = () => {
           {/* Child Routes */}
           <Route path="register" element={<Register />} />
           <Route path="login" element={<Login />} />
-          <Route path="forgot-password" element={<ForgotPassword />} />
           <Route path="email-verify" element={<EmailVerification />} />
+          <Route path="forgot-password" element={<ForgotPassword />} />
+          <Route path="reset-password" element={<ResetPassword />} />
         </Route>
       </Routes>
       <Toaster />
