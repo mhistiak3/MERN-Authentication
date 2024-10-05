@@ -9,13 +9,12 @@ import { Toaster } from "react-hot-toast";
 import Dashboard from "./pages/Dashboard";
 import { useAuthStore } from "./store/auth.store";
 import { useEffect } from "react";
-
+import LoadingSpinner from "./components/LoadingSpinner";
 
 // Protected Routes
 const ProtectedRoute = ({ children }) => {
-  const { isAuthenticated, user,  } = useAuthStore();
-  
- 
+  const { isAuthenticated, user } = useAuthStore();
+
   if (!isAuthenticated) {
     return <Navigate to="/auth/login" />;
   }
@@ -31,6 +30,9 @@ const App = () => {
     checkAuth();
   }, [checkAuth]);
 
+  if (isCheckeingAuth) {
+    return <LoadingSpinner />;
+  }
   console.log("Is Checking Auth:", isCheckeingAuth);
   console.log("Is Auth:", isAuthenticated);
   console.log("User:", user);
