@@ -1,17 +1,19 @@
 import { useState } from "react";
 import { FaEnvelope, FaLock, FaSpinner } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import InputBox from "../components/InputBox";
+import { useAuthStore } from "../store/auth.store";
 
 const Login = () => {
+  const { isLoading, error, login } = useAuthStore();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
-
+  const [loading, setLoading] = useState(isLoading);
+  const navigate = useNavigate();
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -19,10 +21,17 @@ const Login = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form Submitted:", formData);
     setLoading(true);
+    try {
+      await login(formData.email, formData.password);
+      setLoading(false);
+      navigate("/dashboard");
+    } catch (error) {
+      console.log(error);
+        setLoading(false);
+    }
   };
 
   return (
@@ -57,11 +66,20 @@ const Login = () => {
           <button
             type="button"
             onClick={() => setShowPassword((prev) => !prev)}
-            className="absolute right-3 top-3 text-gray-400 hover:text-purple-500 transition-colors duration-300"
+            className="absolute right-3 top-3 text-gray-400 hover:text-purple-500 transition-colors duration-300 "
           >
             {showPassword ? "👁️" : "🙈"}
           </button>
         </div>
+        <div style={{ marginTop: "10px" }}>
+          <Link
+            to="/auth/forgot-password"
+            className="text-purple-500 hover:underline"
+          >
+            Forgot Password?
+          </Link>
+        </div>
+        <p className="text-red-600 text-sm font-semibold">{error}</p>
         {/* Submit Button */}
         <div>
           <button
