@@ -12,6 +12,7 @@ import { useEffect } from "react";
 import LoadingSpinner from "./components/LoadingSpinner";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import NotFound from "./pages/404";
 
 // Protected Routes
 const ProtectedRoute = ({ children }) => {
@@ -58,6 +59,7 @@ const App = () => {
           <Route path="forgot-password" element={<ForgotPassword />} />
           <Route path="reset-password/:token" element={<ResetPassword />} />
         </Route>
+        <Route path="*" element={<NotFound />} />
       </Routes>
       <Toaster />
     </>
