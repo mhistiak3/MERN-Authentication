@@ -7,8 +7,21 @@ import Login from "./pages/Login";
 import EmailVerification from "./pages/EmailVerification";
 import { Toaster } from "react-hot-toast";
 import Dashboard from "./pages/Dashboard";
+import { useAuthStore } from "./store/auth.store";
+import { useEffect } from "react";
+
 
 const App = () => {
+  const { isCheckeingAuth, checkAuth, isAuthenticated,user } = useAuthStore();
+
+  useEffect(() => {
+    checkAuth()
+  }, [checkAuth]);
+  
+  console.log("Is Checking Auth:", isCheckeingAuth);
+  console.log("Is Auth:", isAuthenticated);
+  console.log("User:", user);
+  
   return (
     <>
       <Routes>
