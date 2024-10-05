@@ -181,7 +181,7 @@ export const welcomeEmailTemplate = (name) => {
     <p class="welcome-message">Congratulations! Your email has been successfully verified.</p>
     <p>We are excited to have you as part of our community. Here at iA Coder, we aim to provide you with the best experience possible.</p>
     
-    <a href="http://localhost:5173" class="button">Get Started</a>
+    <a href="https://mern-authentication-4vnn.onrender.com/dashboard" class="button">Get Started</a>
 
     <p>Feel free to explore, and if you have any questions, don't hesitate to reach out to our support team.</p>
 
